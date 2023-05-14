@@ -1,0 +1,2 @@
+class SearchRanking < ApplicationRecord
+end

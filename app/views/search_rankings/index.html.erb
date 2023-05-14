@@ -1,0 +1,30 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>検索順位チェッカー</h1>
+
+<div id="search_rankings">
+  <%= form_with url: "/search_rankings", method: :get do |form| %>
+    <%= form.label :keyword, "キーワード:" %>
+    <%= form.text_field :keyword, class:"form-control", value:params[:keyword] %>
+    <%= form.label :subject_url, "計測対象のURL:" %>
+    <%= form.text_field :subject_url, class:"form-control", value:params[:subject_url] %>
+    <%= form.submit "検索" %>
+  <% end %>
+  <% if @items.present? %>
+    <%# @items.each do |search_ranking| %>
+      <%# render @items %>
+      <%= render partial: 'item', collection: @items %>
+    <%# end %>
+  <% elsif @page_lists.present? %>
+    <% if @subject_array.present? %>
+      <p>順位は<%= link_to @subject_array[0], "#counter_"+@subject_array[0].to_s %>です</p>
+    <% else %>
+      <p>対象のワードは検索圏外です</p>
+    <% end %>
+    <%# @page_lists.each do |page_list| %>
+      <%= render partial: 'page_list', collection:@page_lists %>
+    <%# end %>
+  <% end %>
+</div>
+
+<%# link_to "New search ranking", new_search_ranking_path %>

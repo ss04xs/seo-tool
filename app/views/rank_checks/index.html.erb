@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Rank checks</h1>
+
+<div id="rank_checks">
+  <% @rank_checks.each do |rank_check| %>
+    <%= render rank_check %>
+    <p>
+      <%= link_to "Show this rank check", rank_check %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New rank check", new_rank_check_path %>

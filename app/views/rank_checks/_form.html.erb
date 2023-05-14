@@ -1,0 +1,47 @@
+<%= form_with(model: rank_check) do |form| %>
+  <% if rank_check.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(rank_check.errors.count, "error") %> prohibited this rank_check from being saved:</h2>
+
+      <ul>
+        <% rank_check.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :url, style: "display: block" %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div>
+    <%= form.label :keyword, style: "display: block" %>
+    <%= form.text_field :keyword %>
+  </div>
+
+  <div>
+    <%= form.label :gsp_rank, style: "display: block" %>
+    <%= form.number_field :gsp_rank %>
+  </div>
+
+  <div>
+    <%= form.label :get_date, style: "display: block" %>
+    <%= form.datetime_field :get_date %>
+  </div>
+
+  <div>
+    <%= form.label :zone_type, style: "display: block" %>
+    <%= form.number_field :zone_type %>
+  </div>
+
+  <div>
+    <%= form.label :site_id_id, style: "display: block" %>
+    <%= form.text_field :site_id_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

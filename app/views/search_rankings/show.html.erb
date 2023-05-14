@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @search_ranking %>
+
+<div>
+  <%= link_to "Edit this search ranking", edit_search_ranking_path(@search_ranking) %> |
+  <%= link_to "Back to search rankings", search_rankings_path %>
+
+  <%= button_to "Destroy this search ranking", @search_ranking, method: :delete %>
+</div>

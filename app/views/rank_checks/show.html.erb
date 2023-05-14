@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @rank_check %>
+
+<div>
+  <%= link_to "Edit this rank check", edit_rank_check_path(@rank_check) %> |
+  <%= link_to "Back to rank checks", rank_checks_path %>
+
+  <%= button_to "Destroy this rank check", @rank_check, method: :delete %>
+</div>
