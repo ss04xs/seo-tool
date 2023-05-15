@@ -43,7 +43,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-gem "sassc-rails", '6.0.0'
+gem "sassc-rails"
 
 gem 'mysql2', '~>0.5.3'
 
