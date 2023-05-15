@@ -6,7 +6,7 @@ class CreateRankChecks < ActiveRecord::Migration[7.0]
       t.integer :gsp_rank, comment: "GoogleSPランキング"
       t.datetime :get_date, comment: "取得日時"
       t.integer :zone_type, default:"0", comment: "時間帯"
-      t.references :site_id, null: false, foreign_key: true
+      t.references :site, null: false, foreign_key: true
 
       t.timestamps
     end
