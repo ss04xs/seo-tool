@@ -3,5 +3,5 @@ set :output, 'log/cron.log' # ログの出力先ファイルを設定
 set :environment, :production
 
 every 1.day, at: ['6:00 pm'] do
-    runner 'Batch::DataCreate.data_create'
+    runner 'Batch::DataCreate.rank_data_create'
 end
