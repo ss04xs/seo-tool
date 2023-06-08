@@ -1,0 +1,2 @@
+module PostsTestHelper
+end

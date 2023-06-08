@@ -10,17 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_12_015139) do
-  create_table "rank_checks", force: :cascade do |t|
-    t.string "url"
-    t.string "keyword"
-    t.integer "gsp_rank"
-    t.datetime "get_date"
-    t.integer "zone_type", default: 0
-    t.integer "site_id_id", null: false
+ActiveRecord::Schema[7.0].define(version: 2023_06_07_165426) do
+  create_table "post_tests", force: :cascade do |t|
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["site_id_id"], name: "index_rank_checks_on_site_id_id"
+  end
+
+  create_table "queries", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "keyword", null: false
+    t.integer "zone_type", default: 0, null: false
+    t.integer "site_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_id"], name: "index_queries_on_site_id"
+  end
+
+  create_table "query", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "keyword", null: false
+    t.integer "zone_type", default: 0, null: false
+    t.integer "site_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_id"], name: "index_query_on_site_id"
+  end
+
+  create_table "ranks", force: :cascade do |t|
+    t.integer "gsp_rank"
+    t.datetime "get_date"
+    t.integer "query_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["query_id"], name: "index_ranks_on_query_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -30,5 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_015139) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "rank_checks", "site_ids"
+  add_foreign_key "queries", "sites"
+  add_foreign_key "query", "sites"
+  add_foreign_key "ranks", "queries"
 end

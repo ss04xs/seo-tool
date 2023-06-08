@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyString
+  keyword: MyString
+  gsp_rank: 1
+  get_date: 2023-06-08 01:00:08
+  zone_type: 1
+  site: one
+
+two:
+  url: MyString
+  keyword: MyString
+  gsp_rank: 1
+  get_date: 2023-06-08 01:00:08
+  zone_type: 1
+  site: two
