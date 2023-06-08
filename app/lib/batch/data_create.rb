@@ -46,7 +46,7 @@ class Batch::DataCreate
           end
         end
         gsp_rank = subject_array[0]
-        query.ranks.create(gsp_rank: gsp_rank, get_date: Time.now)
+        query.ranks.create(gsp_rank: gsp_rank)
       end
     end
 end
