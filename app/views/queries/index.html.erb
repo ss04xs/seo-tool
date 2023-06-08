@@ -16,7 +16,7 @@
                     <tr>
                         <th><%= query.keyword %></th>
                         <td label="URL"><%= query.url %></td>
-                        <td label="rank"><%= query.ranks.last.gsp_rank %></td>
+                        <td label="rank"><%= query.ranks.last.gsp_rank if query.ranks.present?  %></td>
                         <% get_one_week.reverse.each do |date| %>
                             <td label="rank"><%= date_to_search_gsp_rank(query.id,date) %></th>
                         <% end %>
