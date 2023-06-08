@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :posts_test
-      resources :queries
+      resources :queries do 
+        collection do 
+          post 'site_create' => 'queries#site_create', as: 'site_create'
+        end
+      end
     end
   end
 end

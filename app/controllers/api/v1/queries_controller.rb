@@ -23,6 +23,15 @@ module Api
                 end
             end
 
+            def site_create
+                site = Site.new(site_params)
+                if site.save
+                    render json: { status: 'SUCCESS', data: site }
+                else
+                    render json: { status: 'ERROR', data: site.errors }
+                end
+            end
+
             def destroy
                 @query.destroy
                 render json: { status: 'SUCCESS', message: 'Deleted the query', data: @query }
@@ -47,7 +56,7 @@ module Api
             end
 
             def site_params
-                params.require(:site).permit(:name,:keyword,:site_id,:zone_type)
+                params.require(:site).permit(:name,:url)
             end
         end
     end
