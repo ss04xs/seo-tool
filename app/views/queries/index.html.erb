@@ -1,20 +1,20 @@
 <div class="queries">
     <% @sites.each do |site| %>
-        <table class="table01">
+        <table class="table01" width="800">
             <thead>
                 <tr>
-                    <th><%= site.name %></th>
-                    <th>URL</th>
-                    <th>GSP<br>最新順位</th>
+                    <th width="200"><%= site.name %></th>
+                    <th width="200">URL</th>
+                    <th width="65">GSP<br>最新順位</th>
                     <% get_one_week.reverse.each do |date| %>
-                        <th><%= date.strftime("%m/%d") %></th>
+                        <th width="50"><%= date.strftime("%m/%d") %></th>
                     <% end %>
                 </tr>
             </thead>
             <% site.queries.each do |query| %>
                 <tbody>
                     <tr>
-                        <th><%= query.keyword %></th>
+                        <th width="200"><%= query.keyword %></th>
                         <td label="URL"><%= query.url %></td>
                         <td label="rank"><%= get_ranks_last(query) %></td>
                         <% get_one_week.reverse.each do |date| %>

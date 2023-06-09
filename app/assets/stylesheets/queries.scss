@@ -1,80 +1,80 @@
 .queries {
-    width: 100%;
-    table.table01 {
-        width: 100%;
+  width: 100%;
+  table.table01 {
+    table-layout: fixed;
+    border-right: #3EB1C6 solid 1px;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+  
+    thead th {
+      background: #3EB1C6;
+      color: #FFF;
+      padding: 10px 15px;
+      border-right: #FFF solid 1px;
+      border-bottom: #FFF solid 1px;
+  
+      &:last-child {
         border-right: #3EB1C6 solid 1px;
-        border-collapse: collapse;
-        margin-bottom: 50px;
-      
-        thead th {
-          background: #3EB1C6;
-          color: #FFF;
-          padding: 10px 15px;
-          border-right: #FFF solid 1px;
-          border-bottom: #FFF solid 1px;
-      
-          &:last-child {
-            border-right: #3EB1C6 solid 1px;
-          }
-        }
-      
-        tbody {
-          th {
-            background: #3eb1c67d;
-            color: #333;
-            padding: 10px 15px;
-            border-bottom: #FFF solid 1px;
-            vertical-align: top;
-            text-align: left;
-          }
+      }
+    }
+  
+    tbody {
+      th {
+        background: #3eb1c67d;
+        color: #333;
+        padding: 10px 15px;
+        border-bottom: #FFF solid 1px;
+        vertical-align: top;
+        text-align: left;
+      }
 
-          tr:first-child th {
-            width: 200px;
+      tr:first-child th {
+        width: 200px;
+      }
+  
+      td {
+        background: #FFF;
+        padding: 10px 15px;
+        border-left: #3EB1C6 solid 1px;
+        border-bottom: #3EB1C6 solid 1px;
+        vertical-align: top;
+        width: 40px;
+      }
+      td:nth-child(2)  {
+        width: 200px;
+      }
+      td:nth-child(3)  {
+        width: 64px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 640px) {
+    table.table01 {
+      thead {
+        display: none;
+      }
+  
+      tbody {
+        th {
+          display: block;
+        }
+  
+        td {
+          display: block;
+  
+          &::before {
+            content: attr(label);
+            float: left;
+            clear: both;
+            font-weight: bold;
           }
-      
-          td {
-            background: #FFF;
-            padding: 10px 15px;
-            border-left: #3EB1C6 solid 1px;
-            border-bottom: #3EB1C6 solid 1px;
-            vertical-align: top;
-            width: 40px;
-          }
-          td:nth-child(2)  {
-            width: 200px;
-          }
-          td:nth-child(3)  {
-            width: 64px;
+  
+          p {
+            padding-left: 6em;
           }
         }
       }
-      
-      @media screen and (max-width: 640px) {
-        table.table01 {
-          thead {
-            display: none;
-          }
-      
-          tbody {
-            th {
-              display: block;
-            }
-      
-            td {
-              display: block;
-      
-              &::before {
-                content: attr(label);
-                float: left;
-                clear: both;
-                font-weight: bold;
-              }
-      
-              p {
-                padding-left: 6em;
-              }
-            }
-          }
-        }
     }
+  }
 }
