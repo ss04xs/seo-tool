@@ -4,6 +4,7 @@
         width: 100%;
         border-right: #3EB1C6 solid 1px;
         border-collapse: collapse;
+        margin-bottom: 50px;
       
         thead th {
           background: #3EB1C6;
@@ -19,15 +20,16 @@
       
         tbody {
           th {
-            background: #3EB1C6;
-            color: #FFF;
+            background: #3eb1c67d;
+            color: #333;
             padding: 10px 15px;
             border-bottom: #FFF solid 1px;
             vertical-align: top;
+            text-align: left;
           }
-      
-          tr:last-child th {
-            border-bottom: #3EB1C6 solid 1px;
+
+          tr:first-child th {
+            width: 200px;
           }
       
           td {
@@ -36,6 +38,9 @@
             border-left: #3EB1C6 solid 1px;
             border-bottom: #3EB1C6 solid 1px;
             vertical-align: top;
+          }
+          td:nth-child(3)  {
+            width: 64px;
           }
         }
       }

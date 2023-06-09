@@ -21,7 +21,6 @@ class Batch::DataCreate
         subject_array = []
         # Google検索クエリの組み立て
         sleep(100)
-        url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
         # Google検索クエリの組み立て
         url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
         url_escape = WEBrick::HTTPUtils.escape(url)
