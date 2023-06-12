@@ -18,6 +18,16 @@ module QueriesHelper
         end
     end
 
+    def get_detection_url_last(query)
+        ranks = query.ranks
+        ranks_last = ranks.last
+        if ranks_last.present?
+            return ranks_last.detection_url
+        else
+            return ""
+        end
+    end
+
     def date_to_search_gsp_rank(id,date_to_search)
         rank = Rank.find_by(query_id:id,created_at: date_to_search.beginning_of_day..date_to_search.end_of_day)
         if rank.present? && rank.gsp_rank.present?

@@ -38,14 +38,20 @@ class Batch::DataCreate
             text = ""
             text = search_a.search('h3').text if search_a.search('h3').present?
             if get_url.include?(query_url)
-              subject_array << i
+              subject_array << [i,get_url]
             end
           else
             url = ""
           end
         end
-        gsp_rank = subject_array[0]
-        query.ranks.create(gsp_rank: gsp_rank)
+        if subject_array[0].present?
+          gsp_rank = subject_array[0][0]
+          gsp_url = subject_array[0][1]
+        else
+          gsp_rank = ""
+          gsp_url = ""
+        end
+        query.ranks.create(gsp_rank: gsp_rank,detection_url:gsp_url)
       end
     end
 end

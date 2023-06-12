@@ -4,7 +4,8 @@
             <thead>
                 <tr>
                     <th width="200"><%= site.name %></th>
-                    <th width="200">URL</th>
+                    <th width="250">URL</th>
+                    <th width="250">検知URL</th>
                     <th width="65">GSP<br>最新順位</th>
                     <% get_one_week.reverse.each do |date| %>
                         <th width="50"><%= date.strftime("%m/%d") %></th>
@@ -16,6 +17,7 @@
                     <tr>
                         <th width="200"><%= query.keyword %></th>
                         <td label="URL"><%= query.url %></td>
+                        <td label="detection_url"><%= get_detection_url_last(query) %></td>
                         <td label="rank"><%= get_ranks_last(query) %></td>
                         <% get_one_week.reverse.each do |date| %>
                             <td label="rank"><%= date_to_search_gsp_rank(query.id,date) %></th>
