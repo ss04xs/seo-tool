@@ -35,7 +35,7 @@ module QueriesHelper
         elsif rank.present? && rank.created_at.present?
             return "圏外"
         else
-            return ""
+            return "未計測"
         end
     end
 end
