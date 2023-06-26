@@ -13,9 +13,9 @@ module Api
                     queries.each do |query|
                         rank_data[query.keyword] = query.ranks
                     end
-                    render json: { status: 'SUCCESS', data: rank_data }
+                    render json: { status: 'SUCCESS', rows: rank_data }
                 else
-                    render json: { status: 'ERROR', data: site.errors }
+                    render json: { status: 'ERROR', rows: site.errors }
                 end
             end
 
