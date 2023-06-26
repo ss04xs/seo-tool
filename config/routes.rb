@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :posts_test
       resources :queries do 
         collection do 
+          get ':site_domain' => 'queries#site_queries', as: 'site_queries'
           post 'site_create' => 'queries#site_create', as: 'site_create'
         end
       end

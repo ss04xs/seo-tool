@@ -6,12 +6,31 @@ module Api
             before_action :set_query, only: [:show, :update, :destroy]
 
             def index
-                queries = Query.order(created_at: :desc)
-                render json: { status: 'SUCCESS', message: 'Loaded query', data: queries }
+                site = Site.find_by_domain(params[:site_domain])
+                if site
+                    queries = site.queries.order(created_at: :desc)
+                    rank_data = {}
+                    queries.each do |query|
+                        rank_data[query.keyword] = query.ranks
+                    end
+                    render json: { status: 'SUCCESS', data: rank_data }
+                else
+                    render json: { status: 'ERROR', data: site.errors }
+                end
             end
 
             def show
                 render json: { status: 'SUCCESS', message: 'Loaded the query', data: @query }
+            end
+
+            def site_queries
+                site = Site.find_by_domain(params[:site_domain])
+                if site
+                    queries = site.queries.order(created_at: :desc)
+                    render json: { status: 'SUCCESS', data: site }
+                else
+                    render json: { status: 'ERROR', data: site.errors }
+                end
             end
 
             def create
