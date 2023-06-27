@@ -11,7 +11,7 @@ module Api
                     queries = site.queries.order(created_at: :desc)
                     rank_data = {}
                     queries.each do |query|
-                        rank_data[query.keyword] = query.ranks
+                        rank_data[[query.keyword,query.url]] = query.ranks
                     end
                     render json: { status: 'SUCCESS', rows: rank_data }
                 else
