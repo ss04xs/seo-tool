@@ -9,9 +9,9 @@ module Api
                 site = Site.find_by_domain(params[:site_domain])
                 if site
                     queries = site.queries.order(created_at: :desc)
-                    rank_data = {}
+                    rank_data = []
                     queries.each do |query|
-                        rank_data[[query.keyword,query.url]] = query.ranks
+                        rank_data << [query.keyword,query.url,query.ranks]
                     end
                     render json: { status: 'SUCCESS', rows: rank_data }
                 else
