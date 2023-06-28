@@ -38,7 +38,7 @@ module Api
                 site_domain = params[:domain]
                 site = Site.find_by_domain(site_domain)
                 if site.present?
-                    query.site_id
+                    query.site_id = site.id
                 end
                 if query.save && site
                 render json: { status: 'SUCCESS', data: query }
