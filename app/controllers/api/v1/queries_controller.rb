@@ -35,7 +35,12 @@ module Api
 
             def create
                 query = Query.new(query_params)
-                if query.save
+                site_domain = params[:domain]
+                site = Site.find_by_domain(site_domain)
+                if site.present?
+                    query.site_id
+                end
+                if query.save && site
                 render json: { status: 'SUCCESS', data: query }
                 else
                 render json: { status: 'ERROR', data: query.errors }
