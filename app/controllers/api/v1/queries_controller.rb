@@ -76,7 +76,7 @@ module Api
             end
 
             def query_params
-                params.require(:query).permit(:url,:keyword,:site_id,:zone_type)
+                params.require(:query).permit(:url,:keyword,:zone_type)
             end
 
             def site_params
