@@ -57,10 +57,9 @@ class Batch::DataCreate
         query.ranks.create(gsp_rank: gsp_rank,detection_url:gsp_url)
         success += 1
         create_last_time = Time.now
-
-        p "#{success}件のデータを作成しました"
-        p "再取得作成日時は#{create_last_time}です"
-        p "=========="
       end
+      p "#{success}件のデータを作成しました"
+      p "再取得作成日時は#{create_last_time}です"
+      p "=========="
     end
 end
