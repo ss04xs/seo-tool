@@ -14,6 +14,9 @@ class Batch::DataCreate
       require 'webrick/httputils'
   
       queries = Query.all
+
+      success = 0
+      create_last_time = ""
   
       queries.each do |query|
         keyword = query.keyword
@@ -52,6 +55,12 @@ class Batch::DataCreate
           gsp_url = ""
         end
         query.ranks.create(gsp_rank: gsp_rank,detection_url:gsp_url)
+        success += 1
+        create_last_time = Time.now
+
+        p "#{success}件のデータを作成しました"
+        p "再取得作成日時は#{create_last_time}です"
+        p "=========="
       end
     end
 end

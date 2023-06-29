@@ -34,12 +34,16 @@ module Api
             end
 
             def create
+                require "nkf"
                 query = Query.new(query_params)
                 site_domain = params[:domain]
                 site = Site.find_by_domain(site_domain)
                 if site.present?
                     query.site_id = site.id
                 end
+                #全角スペースを半角に変換
+                re_keyword = NKF.nkf("-Z1 -w", query.keyword)
+                query.keyword = re_keyword
                 if query.save && site
                 render json: { status: 'SUCCESS', data: query }
                 else
