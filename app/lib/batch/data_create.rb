@@ -27,7 +27,7 @@ class Batch::DataCreate
         # Google検索クエリの組み立て
         url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
         url_escape = WEBrick::HTTPUtils.escape(url)
-        user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
+        user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
   
         # Google検索結果からタイトルとURLを抽出(nokogiriライブラリを利用)
         doc = Nokogiri::HTML(URI.open(url_escape, "User-Agent" => user_agent))
