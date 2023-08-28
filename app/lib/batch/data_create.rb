@@ -35,7 +35,7 @@ class Batch::DataCreate
   
         # Google検索結果からタイトルとURLを抽出(nokogiriライブラリを利用)
         doc = Nokogiri::HTML(URI.open(url_escape, "User-Agent" => user_agent))
-        doc.search("//div[@class=#{@div_serch}]").each.with_index(1) do | div_rc,i |
+        doc.search("//div[@class='#{@div_serch}']").each.with_index(1) do | div_rc,i |
           url = ""
           #title = div_rc.search('h3[@class="zBAuLc l97dzf"]')[0].text # タイトルを抽出
           title = div_rc.search("div[@class='#{@title_serch}']") # タイトルを抽出
