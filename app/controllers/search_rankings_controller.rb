@@ -11,52 +11,49 @@ class SearchRankingsController < ApplicationController
   def index
     @page_lists = []
     keyword = params[:keyword]
-    subject_url = params[:subject_url]
+    query_url = params[:subject_url]
     @subject_array = []
 
     if keyword.present?
+      # Google検索クエリの組み立て
       sleep(10)
-
       # Google検索クエリの組み立て
       url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
-      #url_escape = URI.escape(url)
       url_escape = WEBrick::HTTPUtils.escape(url)
-      user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36'
+      user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
+
+      @div_serch = "P8ujBc v5yQqb jqWpsc"
+      @title_serch = "A9xod ynAwRc q8U8x MBeuO oewGkc LeUQr"
+
 
       # Google検索結果からタイトルとURLを抽出(nokogiriライブラリを利用)
-      doc = Nokogiri::HTML(URI.open(url_escape, "User-Agent" => user_agent))
-      logger.debug doc
-      doc.search('//div[@class="Z26q7c UK95Uc jGGQ5e"]').each.with_index(1) do | div_rc,i |
+      @doc = Nokogiri::HTML(URI.open(url_escape, "User-Agent" => user_agent))
+      @doc.search("//div[@class='#{@div_serch}']").each.with_index(1) do | div_rc,i |
         url = ""
-        logger.debug div_rc
         #title = div_rc.search('h3[@class="zBAuLc l97dzf"]')[0].text # タイトルを抽出
-        title = div_rc.search('h3[@class="zBAuLc l97dzf"]') # タイトルを抽出
-        logger.debug title
+        title = div_rc.search("div[@class='#{@title_serch}']") # タイトルを抽出
         search_a = div_rc.search('a')
-        logger.debug "=========search_a========"
-        logger.debug search_a
         if search_a.present?
-          logger.debug "=========get_url========"
           get_url = search_a[0]["href"] # URLを抽出
           text = ""
-          text = search_a.search('h3').text if search_a.search('h3').present?
-          logger.debug text
-          logger.debug get_url
-
-          if get_url.include?(subject_url)
+          text = title.text if title.present?
+          if get_url.include?(query_url)
             @subject_array << i
           end
-          # url_array = get_url.split("&amp;")
-          # url_array.each do |text|
-          #   url = text if text.include?("url=")
-          # end
         else
           url = ""
         end
-        #logger.debug url
         tmpArray = [text, get_url]
         @page_lists << tmpArray
       end
+      if @subject_array[0].present?
+        @gsp_rank = @subject_array[0][0]
+        @gsp_url = @subject_array[0][1]
+      else
+        @gsp_rank = ""
+        @gsp_url = ""
+      end
+      @rank_array = [@gsp_rank,@gsp_url]
     end
   end
 
