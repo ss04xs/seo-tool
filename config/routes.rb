@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   resources :rank_checks
   resources :sites
-  resources :queries
+  resources :queries do
+    collection do 
+      get ':add' => 'queries#add', as: 'add'
+      post 'query_create' => 'queries#query_create', as: 'query_create'
+    end
+  end
   resources :search_rankings
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

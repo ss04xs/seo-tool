@@ -1,0 +1,20 @@
+<%= form_tag(query_create_queries_path, method: :post, class:"add_form") do %>
+    <table class="table01" width="800">
+        <thead>
+            <tr>
+                <th width="400">ドメイン名</th>
+                <th width="400">キーワード追加</th>
+                <th width="400">クエリURL</th>
+                <th width="50"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td label="domain"><%= text_field_tag :domain_name, "", placeholder:"ドメイン名" %></td>
+                <td label="keyword"><%= text_field_tag :keyword, "", placeholder:"検索キーワードを追加" %></td>
+                <td label="key_url"><%= text_field_tag :key_url, "",placeholder:"検索対象URLを追加" %></td>
+                <td label="URL"><%= submit_tag "追加" %></td>
+            </tr>
+        </tbody>
+    </table>
+<% end %>
