@@ -9,7 +9,7 @@ class QueriesController < ApplicationController
 
     def query_create
         headers = request.headers["HTTP_HOST"] 
-        require 'net/http'
+        require 'net/https'
         require 'uri'
         require "nkf"
         keyword = params[:keyword]
@@ -22,13 +22,17 @@ class QueriesController < ApplicationController
         end
         if headers == "localhost:3000"
             uri = URI.parse('http://localhost:3000/api/v1/queries')
+            net_http = Net::HTTP.new(uri.host, uri.port)
         else
             uri = URI.parse('https://seo-kaiseki.com/api/v1/queries')
+            net_http = Net::HTTP.new(uri.host, uri.port)
+            net_http.use_ssl = true
+            net_http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
         req = Net::HTTP::Post.new(uri.path)
         req.basic_auth("test0515", "0515")
         req.set_form_data({'query[keyword]'=>"#{re_keyword}", 'query[url]'=>"#{key_url}", 'domain'=>"#{domain_name}"})
-        res = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(req) }
+        res = net_http.start {|http| http.request(req) }
         logger.debug res.body
         case res
         when Net::HTTPSuccess, Net::HTTPRedirection
