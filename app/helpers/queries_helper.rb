@@ -73,4 +73,15 @@ module QueriesHelper
             return "未計測"
         end
     end
+
+    def plus_judge(num)
+        num = 0 if num.blank?
+        if num == 0
+            "zero"
+        elsif num < 0
+            "plus"
+        else
+            "minus"
+        end
+    end
 end

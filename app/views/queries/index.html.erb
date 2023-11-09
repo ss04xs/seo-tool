@@ -21,8 +21,10 @@
                         <td label="URL"><%= query.url %></td>
                         <td label="detection_url"><%= get_detection_url_last(query) %></td>
                         <td label="rank"><%= get_ranks_last(query) %></td>
-                        <td label="rank"><%= get_rank_comparison(query,get_one_week_ago) %></td>
-                        <td label="rank"><%= get_rank_comparison(query,get_one_month_ago) %></td>
+                        <% week_ago = get_rank_comparison(query,get_one_week_ago) %>
+                        <td label="rank <%= plus_judge(week_ago) %>}"><%= week_ago %></td>
+                        <% month_ago = get_rank_comparison(query,get_one_month_ago) %>
+                        <td label="rank <%= plus_judge(month_ago) %>"><%= month_ago %></td>
                         <% get_one_month.reverse.each do |date| %>
                             <td label="rank"><%= date_to_search_gsp_rank(query.id,date) %></th>
                         <% end %>
