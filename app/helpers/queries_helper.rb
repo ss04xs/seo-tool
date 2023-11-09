@@ -9,7 +9,7 @@ module QueriesHelper
     def get_one_week_ago
         today = Date.today
         # 過去一週間の日付を計算
-        week_ago = today - 6 # 6日前から開始するため、6を引く
+        week_ago = today - 7
         return week_ago
     end
 
