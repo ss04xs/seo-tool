@@ -6,7 +6,9 @@
                     <th width="200"><%= site.name %></th>
                     <th width="250">URL</th>
                     <th width="250">検知URL</th>
-                    <th width="65">GSP<br>最新順位</th>
+                    <th width="65">GS1P<br>最新順位</th>
+                    <th width="65">週前順位</th>
+                    <th width="65">月前順位</th>
                     <% get_one_month.reverse.each do |date| %>
                         <th width="50"><%= date.strftime("%m/%d") %></th>
                     <% end %>
@@ -19,6 +21,8 @@
                         <td label="URL"><%= query.url %></td>
                         <td label="detection_url"><%= get_detection_url_last(query) %></td>
                         <td label="rank"><%= get_ranks_last(query) %></td>
+                        <td label="rank"><%= get_rank_comparison(query,get_one_week_ago) %></td>
+                        <td label="rank"><%= get_rank_comparison(query,get_one_month_ago) %></td>
                         <% get_one_month.reverse.each do |date| %>
                             <td label="rank"><%= date_to_search_gsp_rank(query.id,date) %></th>
                         <% end %>
