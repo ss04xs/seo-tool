@@ -62,9 +62,9 @@ class Batch::DataCreate
         success += 1
         create_last_time = Time.now
       end
-      file = File.new("create_log.txt","w")
+      file = File.new("create_log.txt","a")
       text = "#{success}件のデータを作成しました"
-      text += "再取得作成日時は#{create_last_time}です"
+      text += "作成日時は#{create_last_time}です"
       text += "=========="
       file.puts(text)
     end
