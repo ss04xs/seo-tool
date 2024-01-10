@@ -27,7 +27,7 @@ class Batch::DataCreate
         @title_serch = "A9xod ynAwRc q8U8x MBeuO oewGkc LeUQr"
 
         # Google検索クエリの組み立て
-        sleep(80+rand(10))
+        sleep(120+rand(10))
         # Google検索クエリの組み立て
         url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
         url_escape = WEBrick::HTTPUtils.escape(url)
