@@ -54,7 +54,6 @@ gem 'whenever', require: false
 
 #スクレイピング用
 gem 'nokogiri'
-gem 'httparty'
 gem 'selenium-webdriver'
 
 gem 'google-api-client'
