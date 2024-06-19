@@ -44,11 +44,15 @@ module Api
                 #全角スペースを半角に変換
                 re_keyword = NKF.nkf("-Z1 -w", query.keyword)
                 query.keyword = re_keyword
-                query.keyword = re_keyword
-                if query.save && site
-                render json: { status: 'SUCCESS', data: query }
-                else
-                render json: { status: 'ERROR', data: query.errors }
+                begin
+                    if query.save && site
+                    render json: { status: 'SUCCESS', data: query }
+                    else
+                    render json: { status: 'ERROR', data: query.errors }
+                    end
+                rescue => e
+                    Rails.logger.error("Transaction failed: #{e.message}")
+                    raise ActiveRecord::Rollback
                 end
             end
 
