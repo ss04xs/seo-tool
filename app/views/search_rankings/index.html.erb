@@ -17,14 +17,18 @@
     <%# end %>
   <% elsif @page_lists.present? %>
     <div class="div_serch">
-      <%= @div_serch %>
+      <%= @page_lists.size %>
     </div>
-    <div class="h3_serch">
-      <%= @h3_serch %>
+    <%
+=begin%>
+ <div class="h3_serch">
+      <%= @page_lists %>
     </div>
     <div class="doc_html" style="    height: 50px;overflow: hidden;">
       <%= @doc %>
-    </div>
+    </div> 
+<%
+=end%>
     <% if @subject_array.present? %>
       <p>順位は<%= link_to @subject_array[0], "#counter_"+@subject_array[0].to_s %>です</p>
     <% else %>

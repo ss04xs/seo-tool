@@ -6,46 +6,56 @@ class SearchRankingsController < ApplicationController
   require 'uri'
   require 'cgi'
   require 'webrick/httputils'
+  require 'selenium-webdriver'
 
   # GET /search_rankings or /search_rankings.json
   def index
     @page_lists = []
+    @subject_array = []
     keyword = params[:keyword]
     query_url = params[:subject_url]
-    @subject_array = []
 
     if keyword.present?
       # Google検索クエリの組み立て
-      sleep(10)
-      # Google検索クエリの組み立て
+      # Chromeドライバを設定
+     # Selenium WebDriverの設定
+      user_agent = 'user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--headless')
+      options.add_argument('--disable-gpu')
+      options.add_argument('--no-sandbox')
+      options.add_argument('--disable-dev-shm-usage')
+      options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+
+#      options.add_argument(user_agent)
+
+      driver = Selenium::WebDriver.for :chrome, options: options
+
+      # URLを開く
       url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
-      url_escape = WEBrick::HTTPUtils.escape(url)
-      user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
+      driver.get(url)
 
-      @div_serch = "P8ujBc v5yQqb jqWpsc"
-      @title_serch = "A9xod ynAwRc q8U8x MBeuO oewGkc LeUQr"
+      # ページのHTMLを取得
+      html = driver.page_source
 
+      target_css = "div.g"
 
-      # Google検索結果からタイトルとURLを抽出(nokogiriライブラリを利用)
-      @doc = Nokogiri::HTML(URI.open(url_escape, "User-Agent" => user_agent))
-      @doc.search("//div[@class='#{@div_serch}']").each.with_index(1) do | div_rc,i |
-        url = ""
-        #title = div_rc.search('h3[@class="zBAuLc l97dzf"]')[0].text # タイトルを抽出
-        title = div_rc.search("div[@class='#{@title_serch}']") # タイトルを抽出
-        search_a = div_rc.search('a')
-        if search_a.present?
-          get_url = search_a[0]["href"] # URLを抽出
-          text = ""
-          text = title.text if title.present?
+      # NokogiriでHTMLをパース
+      @doc = Nokogiri::HTML(html)
+
+      @doc.css(target_css).each.with_index(1) do |result,i|
+        link = result.css('a').first
+        title = result.css('h3').text
+        get_url = link['href'] if link
+        if get_url.present?
           if get_url.include?(query_url)
             @subject_array << i
           end
-        else
-          url = ""
+          tmpArray = [title, get_url]
+          @page_lists << tmpArray
         end
-        tmpArray = [text, get_url]
-        @page_lists << tmpArray
       end
+      driver.quit
       if @subject_array[0].present?
         @gsp_rank = @subject_array[0][0]
         @gsp_url = @subject_array[0][1]
