@@ -52,7 +52,10 @@ gem 'whenever', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-gem "nokogiri"
+#スクレイピング用
+gem 'nokogiri'
+gem 'httparty'
+gem 'selenium-webdriver'
 
 gem 'google-api-client'
 
