@@ -18,30 +18,26 @@ class Batch::DataCreate
 
       success = 0
       create_last_time = ""
-  
+
+      #user_agent = 'user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--headless')
+      options.add_argument('--disable-gpu')
+      options.add_argument('--no-sandbox')
+      options.add_argument('--disable-dev-shm-usage')
+      options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+
+      driver = Selenium::WebDriver.for :chrome, options: options
+
       queries.each do |query|
         keyword = query.keyword
         query_url = query.url
         @subject_array = []
 
-        #user_agent = 'user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1'
-        options = Selenium::WebDriver::Chrome::Options.new
-        options.add_argument('--headless')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
-
-
-        @div_serch = "P8ujBc v5yQqb jqWpsc"
-        @title_serch = "A9xod ynAwRc q8U8x MBeuO oewGkc LeUQr"
 
         # Google検索クエリの組み立て
         sleep(60+rand(10))
         # Google検索クエリの組み立て
-
-        driver = Selenium::WebDriver.for :chrome, options: options
-
         # URLを開く
         url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
         driver.get(url)
@@ -78,6 +74,9 @@ class Batch::DataCreate
         success += 1
         create_last_time = Time.now
       end
+      # ブラウザを終了
+      driver.quit
+      
       file = File.new("create_log.txt","a")
       text = "#{success}件のデータを作成しました"
       text += "作成日時は#{create_last_time}です"
