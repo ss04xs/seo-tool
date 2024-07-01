@@ -14,7 +14,7 @@ class Batch::DataCreate
       require 'webrick/httputils'
       require 'selenium-webdriver'
   
-      queries = Query.all
+      queries = Query.all.order(id: :desc)
 
       success = 0
       create_last_time = ""
@@ -76,7 +76,7 @@ class Batch::DataCreate
       end
       # ブラウザを終了
       driver.quit
-      
+
       file = File.new("create_log.txt","a")
       text = "#{success}件のデータを作成しました"
       text += "作成日時は#{create_last_time}です"
