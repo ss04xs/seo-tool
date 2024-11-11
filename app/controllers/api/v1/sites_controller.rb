@@ -1,6 +1,6 @@
 module Api
     module V1
-        class Api::V1::QueriesController < ApplicationController
+        class Api::V1::SitesController < ApplicationController
             skip_before_action :verify_authenticity_token
 
             before_action :set_site, only: [:show, :update, :destroy]
