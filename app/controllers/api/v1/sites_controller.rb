@@ -60,7 +60,7 @@ module Api
             end
 
             def site_params
-                params.require(:site).permit(:name,:url)
+                params.require(:site).permit(:domain,:name)
             end
         end
     end
