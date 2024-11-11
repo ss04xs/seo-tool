@@ -21,6 +21,7 @@ Rails.application.routes.draw do
           post 'site_create' => 'queries#site_create', as: 'site_create'
         end
       end
+      resources :sites
     end
   end
 end
