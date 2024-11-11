@@ -13,7 +13,7 @@ module Api
             end
 
             def site_queries
-                site = Site.find_by_domain(params[:site_domain])
+                site = Site.find_by_domain(params[:domain])
                 if site
                     queries = site.queries.order(created_at: :desc)
                     render json: { status: 'SUCCESS', data: site }
@@ -24,7 +24,7 @@ module Api
 
             def create
                 require "nkf"
-                site = Site.find_by_domain(params[:domain_name])
+                site = Site.find_by_domain(params[:domain])
                 if site.blank?
                     add_site = Site.new(site_params)
                     begin
@@ -56,7 +56,7 @@ module Api
             private
 
             def set_site
-                @site = Site.find_by_domain(params[:domain_name])
+                @site = Site.find_by_domain(params[:domain])
             end
 
             def site_params
