@@ -9,7 +9,7 @@ module Api
             end
 
             def show
-                render json: { status: 'SUCCESS', message: 'Loaded the query', data: @query }
+                render json: { status: 'SUCCESS', message: 'Loaded the site', data: @site }
             end
 
             def site_queries
@@ -24,7 +24,8 @@ module Api
 
             def create
                 require "nkf"
-                if @site.blank?
+                site = Site.find_by_domain(params[:domain_name])
+                if site.blank?
                     add_site = Site.new(site_params)
                     begin
                         if add_site.save
@@ -41,12 +42,12 @@ module Api
 
             def destroy
                 @site.destroy
-                render json: { status: 'SUCCESS', message: 'Deleted the query', data: @site }
+                render json: { status: 'SUCCESS', message: 'Deleted the site', data: @site }
             end
 
             def update
                 if @site.update(site_params)
-                render json: { status: 'SUCCESS', message: 'Updated the query', data: @site }
+                render json: { status: 'SUCCESS', message: 'Updated the site', data: @site }
                 else
                 render json: { status: 'SUCCESS', message: 'Not updated', data: @site.errors }
                 end
