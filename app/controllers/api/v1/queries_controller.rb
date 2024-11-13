@@ -42,12 +42,16 @@ module Api
                 if site.present?
                     query.site_id = site.id
                 end
+                logger.debug(query.keyword)
                 #全角スペースを半角に変換
                 re_keyword = NKF.nkf("-Z1 -w", query.keyword)
                 query.keyword = re_keyword
+                logger.debug(query.keyword)
                 begin
+                    logger.debug(query.attributes)
+                    logger.debug(site)
                     if query.save && site
-                    render json: { status: 'SUCCESS', data: query }
+                        render json: { status: 'SUCCESS', data: query }
                     else
                         logger.debug(query.errors)
                     render json: { status: 'ERROR', data: query.errors }
