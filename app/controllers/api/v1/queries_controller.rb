@@ -38,6 +38,7 @@ module Api
                 query = Query.new(query_params)
                 site_domain = params[:domain]
                 site = Site.find_by_domain(site_domain)
+                logger.debug(query)
                 if site.present?
                     query.site_id = site.id
                 end
@@ -48,6 +49,7 @@ module Api
                     if query.save && site
                     render json: { status: 'SUCCESS', data: query }
                     else
+                        logger.debug(query.errors)
                     render json: { status: 'ERROR', data: query.errors }
                     end
                 rescue => e
