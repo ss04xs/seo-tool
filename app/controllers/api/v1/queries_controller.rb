@@ -53,8 +53,8 @@ module Api
                     if query.save && site
                         render json: { status: 'SUCCESS', data: query }
                     else
-                        logger.debug(query.errors)
-                    render json: { status: 'ERROR', data: query.errors }
+                        logger.debug(query.errors.full_messages)
+                        render json: { status: 'ERROR', data: query.errors }
                     end
                 rescue => e
                     Rails.logger.error("Transaction failed: #{e.message}")
