@@ -14,7 +14,7 @@ class Batch::DataCreate
       require 'webrick/httputils'
       require 'selenium-webdriver'
   
-      queries = Query.for_search_type_zero.order(id: :desc)
+      queries = Query.for_search_type_one.order(id: :desc)
 
       success = 0
       create_last_time = ""
@@ -53,49 +53,69 @@ class Batch::DataCreate
 
         puts "#{keyword}の検索を開始します"
 
-        user_agent = user_agents.sample
-        options.add_argument("user-agent=#{user_agent}")
+        require 'selenium-webdriver'
 
-        driver = Selenium::WebDriver.for :chrome, options: options
+        # ブラウザの設定
+        driver = Selenium::WebDriver.for :chrome
 
+        # Googleマップを開く
+        driver.navigate.to "https://www.google.com/maps"
+        sleep 3
 
-        # Google検索クエリの組み立て
-        # URLを開く
-        url = "https://www.google.co.jp/search?q=#{keyword}&num=100"
-        driver.get(url)
+        # 検索キーワードを入力
+        search_box = driver.find_element(css: '.searchboxinput')
+        search_box.send_keys(keyword)
+        search_box.send_keys(:return)
+        sleep 5
 
-        # ページのHTMLを取得
-        html = driver.page_source
-        target_css = "div.g"
+        # 指定した店舗名
+        target_name = query.site.name
 
-        # NokogiriでHTMLをパース
-        @doc = Nokogiri::HTML(html)
+        # 検索結果のスクロール処理
+        results = []
+        previous_count = 0
+        max_scroll_attempts = 10 # 最大スクロール回数
+        target_rank = nil
 
-        @doc.css(target_css).each.with_index(1) do |result,i|
-          url = ""
-          #title = div_rc.search('h3[@class="zBAuLc l97dzf"]')[0].text # タイトルを抽出
-          title = result.css('h3').text
-          text += "#{count}回目#{i}// == #{keyword} == #{title}です\n"
-          puts "#{count}回目#{i}// == #{keyword} == #{title}です\n"
-          link = result.css('a').first
-          get_url = link['href'] if link
-          if get_url.present?
-            if get_url.include?(query_url)
-              @subject_array << [i,get_url]
+        max_scroll_attempts.times do
+          # 現在の検索結果を取得
+          current_results = driver.find_elements(css: 'a.hfpxzc')
+          
+          # 既存のresultsに新しい要素を追加（重複排除）
+          results = current_results | results
+
+          # 指定した店舗名がリスト内にあるかチェック
+          results.each_with_index do |result, index|
+            name = result.attribute('aria-label') rescue nil
+            if name == target_name
+              target_rank = index + 1
+              break
             end
-          else
-            url = ""
           end
+
+          # 見つかったら終了
+          break if target_rank
+
+          # 新しい結果が見つからなければ終了
+          break if results.size == previous_count
+
+          # スクロール実行
+          results.last.location_once_scrolled_into_view
+          sleep 2
+          
+          previous_count = results.size
         end
-        puts "#{count}回目のキーワード処理を実行しました。"
-        if @subject_array[0].present?
-          gsp_rank = @subject_array[0][0]
-          gsp_url = @subject_array[0][1]
+
+        # 結果の出力
+        if target_rank
+          #puts "#{target_name} は検索結果で #{target_rank} 番目に表示されています。"
         else
-          gsp_rank = ""
-          gsp_url = ""
+          #puts "#{target_name} は検索結果に見つかりませんでした。"
         end
-        query.ranks.create(gsp_rank: gsp_rank,detection_url:gsp_url)
+
+        # ブラウザを閉じる
+        driver.quit
+        query.ranks.create(map_rank: target_rank)
         success += 1
         create_last_time = Time.now
          # Google検索クエリの組み立て

@@ -8,10 +8,35 @@ module Api
             def index
                 site = Site.find_by_domain(params[:site_domain])
                 if site
-                    queries = site.queries.order(created_at: :desc)
+                    if params[:site_domain] == "0"
+                        queries = site.queries.for_search_type_zero.order(created_at: :desc)
+                    else
+                        queries = site.queries.for_search_type_one.order(created_at: :desc)
+                    end
                     rank_data = []
                     queries.each do |query|
                         rank_data << [query.keyword,query.url,query.ranks]
+                    end
+                    render json: { status: 'SUCCESS', rows: rank_data }
+                else
+                    render json: { status: 'ERROR', rows: site.errors }
+                end
+            end
+
+            def map_index
+                site = Site.find_by_domain(params[:site_domain])
+                if site
+                    queries = site.queries.order(created_at: :desc)
+                    rank_data = []
+                    queries.each do |query|
+                        ranks = query.ranks.map do |rank|
+                            {
+                            map_rank: rank.map_rank,
+                            detection_url: rank.detection_url,
+                            get_date: rank.get_date
+                            }
+                        end
+                        rank_data << { keyword: query.keyword, url: query.url, ranks: ranks }
                     end
                     render json: { status: 'SUCCESS', rows: rank_data }
                 else
@@ -91,7 +116,7 @@ module Api
             end
 
             def query_params
-                params.require(:query).permit(:url,:keyword,:zone_type)
+                params.require(:query).permit(:url,:keyword,:zone_type,:search_type)
             end
 
             def site_params
