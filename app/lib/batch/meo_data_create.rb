@@ -1,4 +1,5 @@
-class Batch::DataCreate
+module Batch
+  class MeoDataCreate
     def self.data_create
       success = 0
       error = 0
@@ -109,13 +110,13 @@ class Batch::DataCreate
         # 結果の出力
         if target_rank
           #puts "#{target_name} は検索結果で #{target_rank} 番目に表示されています。"
+          query.ranks.create(map_rank: target_rank)
         else
           #puts "#{target_name} は検索結果に見つかりませんでした。"
         end
 
         # ブラウザを閉じる
         driver.quit
-        query.ranks.create(map_rank: target_rank)
         success += 1
         create_last_time = Time.now
          # Google検索クエリの組み立て
@@ -131,4 +132,5 @@ class Batch::DataCreate
       text += "=========="
       file.puts(text)
     end
+  end
 end
