@@ -64,6 +64,9 @@ module Api
                 #全角スペースを半角に変換
                 re_keyword = NKF.nkf("-Z1 -w", query.keyword)
                 query.keyword = re_keyword
+                if query.url.blank?
+                    query.url = site_domain
+                end
                 logger.debug(query.keyword)
                 begin
                     logger.debug(query.attributes)
