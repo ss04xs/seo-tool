@@ -57,7 +57,12 @@ module Batch
         require 'selenium-webdriver'
 
         # ブラウザの設定
-        driver = Selenium::WebDriver.for :chrome
+        driver = Selenium::WebDriver.for :chrome, 
+        options: options, 
+        service: Selenium::WebDriver::Chrome::Service.new(
+          path: '/usr/bin/chromedriver',
+          args: ['--verbose']
+        )
 
         # Googleマップを開く
         driver.navigate.to "https://www.google.com/maps"
