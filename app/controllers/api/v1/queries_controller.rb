@@ -7,14 +7,12 @@ module Api
 
             def index
                 site = Site.find_by_domain(params[:site_domain])
-                
-                if site
-                  queries = fetch_queries(site, params[:site_domain])
-                  rank_data = queries.map { |query| extract_rank_data(query, params[:site_domain]) }
               
+                if site
+                  rank_data = fetch_rank_data(site, params[:search_type])
                   render json: { status: 'SUCCESS', rows: rank_data }
                 else
-                  render json: { status: 'ERROR', rows: site&.errors }
+                  render json: { status: 'ERROR', rows: site.errors }
                 end
             end
 
@@ -118,23 +116,25 @@ module Api
                 params.require(:site).permit(:name,:url)
             end
 
-            # クエリを取得
-            def fetch_queries(site, site_domain)
-            if site_domain == "0"
-                site.queries.for_search_type_zero.order(created_at: :desc)
-            else
-                site.queries.for_search_type_one.order(created_at: :desc)
-            end
-            end
-
-            # ランクデータを抽出
-            def extract_rank_data(query, site_domain)
-            if site_domain == "0"
-                [query.keyword, query.url, query.ranks]
-            else
-                [query.keyword, query.url, query.map_rank]
-            end
-            end
+            def fetch_rank_data(site, search_type)
+                queries =
+                  case search_type
+                  when "0"
+                    site.queries.for_search_type_zero.order(created_at: :desc)
+                  when "1"
+                    site.queries.for_search_type_one.order(created_at: :desc)
+                  else
+                    []
+                  end
+              
+                queries.map do |query|
+                  if search_type == "0"
+                    [query.keyword, query.url, query.ranks]
+                  else
+                    [query.keyword, query.url, query.map_rank]
+                  end
+                end
+            end              
         end
     end
 end
