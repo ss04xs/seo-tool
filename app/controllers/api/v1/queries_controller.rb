@@ -128,11 +128,7 @@ module Api
                   end
               
                 queries.map do |query|
-                  if search_type == "0"
                     [query.keyword, query.url, query.ranks]
-                  else
-                    [query.keyword, query.url, query.map_rank]
-                  end
                 end
             end              
         end
