@@ -120,16 +120,13 @@ module Batch
           #puts "#{target_name} は検索結果に見つかりませんでした。"
         end
 
-        # ブラウザを閉じる
-        driver.quit
         success += 1
         create_last_time = Time.now
-         # Google検索クエリの組み立て
-        driver.quit
+        # Google検索クエリの組み立て
         sleep(60+rand(10))
       end
-      # ブラウザを終了
-      #driver.quit
+      # ブラウザを閉じる
+      driver.quit
 
       file = File.new("create_log.txt","a")
       text = "#{success}件のデータを作成しました"
