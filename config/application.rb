@@ -13,6 +13,9 @@ module SeoTool
 
     config.paths.add 'lib', eager_load: true  # この行を追加
 
+    config.time_zone = 'Asia/Tokyo' # 日本時間に設定
+    config.active_record.default_timezone = :local # ローカルタイムゾーンで保存
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
