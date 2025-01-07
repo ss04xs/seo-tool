@@ -233,7 +233,7 @@ class Batch::DataCreate
         sleep(60+rand(10))
       end
       # ブラウザを終了
-      driver.quit
+      #driver.quit
 
       file = File.new("create_log.txt","a")
       text = "#{success}件のデータを作成しました"
