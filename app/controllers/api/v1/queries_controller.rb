@@ -47,26 +47,14 @@ module Api
 
             def queries_by_domain
                 domain = params[:domain]
+                search_type = params[:search_type]
+                if search_type.blank?
+                    search_type = "0"
+                end
                 site = Site.includes(queries: :ranks).find_by(domain: domain)
         
                 if site
-                  site_queries = site.queries.map do |query|
-                    {
-                      id: query.id,
-                      keyword: query.keyword,
-                      url: query.url,
-                      created_at: query.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-                      ranks: query.ranks.map do |rank|
-                        {
-                          id: rank.id,
-                          gsp_rank: rank.gsp_rank,
-                          map_rank: rank.map_rank,
-                          detection_url: rank.detection_url,
-                          created_at: rank.created_at.strftime('%Y-%m-%d %H:%M:%S')
-                        }
-                      end
-                    }
-                  end
+                  site_queries = fetch_rank_data(site, search_type)
         
                   render json: { status: 'SUCCESS', data: site_queries }
                 else
