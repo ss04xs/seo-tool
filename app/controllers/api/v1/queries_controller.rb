@@ -47,7 +47,7 @@ module Api
 
             def queries_by_domain
                 domain = params[:domain]
-                site = Site.includes(queries: :ranks).find_by(url: domain)
+                site = Site.includes(queries: :ranks).find_by(domain: domain)
         
                 if site
                   queries = site.queries.map do |query|
