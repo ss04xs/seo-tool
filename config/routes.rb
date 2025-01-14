@@ -17,9 +17,9 @@ Rails.application.routes.draw do
       resources :posts_test
       resources :queries do 
         collection do 
+          get "all_queries" => "queries#all_queries", as: 'all_queries'
           get ':site_domain' => 'queries#site_queries', as: 'site_queries'
           post 'site_create' => 'queries#site_create', as: 'site_create'
-          get "all_queries" => "queries#all_queries", as: 'all_queries'
         end
       end
       resources :sites

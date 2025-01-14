@@ -21,7 +21,7 @@ module Api
                 sites_with_queries = Site.includes(queries: :ranks).map do |site|
                     {
                     site_name: site.name,
-                    site_url: site.url,
+                    site_url: site.domain,
                     queries: site.queries.map do |query|
                         {
                         id: query.id,
