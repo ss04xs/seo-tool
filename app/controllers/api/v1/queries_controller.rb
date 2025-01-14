@@ -50,7 +50,7 @@ module Api
                 site = Site.includes(queries: :ranks).find_by(domain: domain)
         
                 if site
-                  queries = site.queries.map do |query|
+                  site_queries = site.queries.map do |query|
                     {
                       id: query.id,
                       keyword: query.keyword,
@@ -68,7 +68,7 @@ module Api
                     }
                   end
         
-                  render json: { status: 'SUCCESS', site_name: site.name, queries: queries }
+                  render json: { status: 'SUCCESS', data: site_queries }
                 else
                   render json: { status: 'ERROR', message: 'Site not found' }, status: 404
                 end
