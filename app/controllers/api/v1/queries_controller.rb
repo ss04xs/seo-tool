@@ -56,7 +56,7 @@ module Api
                 if site
                   site_queries = fetch_rank_data(site, search_type)
         
-                  render json: { status: 'SUCCESS', data: site_queries }
+                  render json: { status: 'SUCCESSA', data: site_queries }
                 else
                   render json: { status: 'ERROR', message: 'Site not found' }, status: 404
                 end
