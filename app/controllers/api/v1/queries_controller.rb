@@ -16,6 +16,35 @@ module Api
                 end
             end
 
+            def all_queries
+                 # サイトごとにクエリデータとそのランクデータを取得
+                sites_with_queries = Site.includes(queries: :ranks).map do |site|
+                    {
+                    site_name: site.name,
+                    site_url: site.url,
+                    queries: site.queries.map do |query|
+                        {
+                        id: query.id,
+                        keyword: query.keyword,
+                        url: query.url,
+                        created_at: query.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                        ranks: query.ranks.map do |rank|
+                            {
+                            id: rank.id,
+                            gsp_rank: rank.gsp_rank,
+                            map_rank: rank.map_rank,
+                            detection_url: rank.detection_url,
+                            created_at: rank.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                            }
+                        end
+                        }
+                    end    
+                    }
+                end
+                # JSON形式で返す
+                render json: { status: 'SUCCESS', data: sites_with_queries }
+            end
+
             def map_index
                 site = Site.find_by_domain(params[:site_domain])
                 if site
